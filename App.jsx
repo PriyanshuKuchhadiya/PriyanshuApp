@@ -1,38 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import ToDoList from './ToDoList';
-import ToDoForm from './ToDoForm';
+import React from 'react';
+import 'react-native-gesture-handler'; // Ensure this is imported at the very top
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'; // Updated to use Native Stack Navigator
+import HomeScreen from './src/screens/HomeScreen';
+import AboutScreen from './src/screens/AboutScreen';
+
+// Create the stack navigator
+const Stack = createNativeStackNavigator();
 
 function App() {
-    const [tasks, setTasks] = useState(['Do laundry', 'Go to gym', 'Walk dog']);
-
-    const addTask = (taskText) => {
-        // Avoid adding empty or duplicate tasks
-        if (taskText && !tasks.includes(taskText)) {
-            setTasks([...tasks, taskText]);
-        }
-    };
-
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>My To-Do List</Text>
-            <ToDoList tasks={tasks} />
-            <ToDoForm addTask={addTask} />
-        </View>
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen 
+                    name="Home" 
+                    component={HomeScreen} 
+                    options={{ title: 'My To-Do List' }} // Title for the Home screen
+                />
+                <Stack.Screen 
+                    name="About" 
+                    component={AboutScreen} 
+                    options={{ title: 'About This App' }} // Title for the About screen
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: '#fff',
-    },
-    title: {
-        fontSize: 24,
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-});
 
 export default App;
